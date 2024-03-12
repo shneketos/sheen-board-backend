@@ -8,8 +8,11 @@ export class CreateUserDto {
   email: string;
 
   @ApiProperty()
+  avatar: string;
+
+  @ApiProperty()
   password: string;
 
   @ApiProperty({ default: [] })
-  workspaces: number[];
+  workspaces: string[];
 }

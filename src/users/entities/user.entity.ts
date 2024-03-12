@@ -14,6 +14,9 @@ export class UserEntity {
   @Column()
   name: string;
 
+  @Column()
+  avatar: string;
+
   @Column('simple-array')
-  workspaces: number[];
+  workspaces: string[];
 }
