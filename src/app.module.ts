@@ -16,6 +16,11 @@ import { KanbanTasksModule } from './kanban_tasks/kanban_tasks.module';
 import { KanbanEntity } from './kanban/entities/kanban.entity';
 import { KanbanTaskEntity } from './kanban_tasks/entities/kanban_task.entity';
 import { KanbanListEntity } from './kanban_list/entities/kanban_list.entity';
+import { BacklogSprintModule } from './backlog_sprint/backlog_sprint.module';
+import { BacklogTaskModule } from './backlog_task/backlog_task.module';
+import { BacklogEntity } from './backlog/entities/backlog.entity';
+import { BacklogSprintEntity } from './backlog_sprint/entities/backlog_sprint.entity';
+import { BacklogTaskEntity } from './backlog_task/entities/backlog_task.entity';
 
 @Module({
   imports: [
@@ -33,6 +38,9 @@ import { KanbanListEntity } from './kanban_list/entities/kanban_list.entity';
         KanbanEntity,
         KanbanTaskEntity,
         KanbanListEntity,
+        BacklogEntity,
+        BacklogSprintEntity,
+        BacklogTaskEntity,
       ],
       synchronize: true,
     }),
@@ -44,6 +52,8 @@ import { KanbanListEntity } from './kanban_list/entities/kanban_list.entity';
     CalendarModule,
     KanbanListModule,
     KanbanTasksModule,
+    BacklogSprintModule,
+    BacklogTaskModule,
   ],
   controllers: [AppController],
   providers: [AppService],

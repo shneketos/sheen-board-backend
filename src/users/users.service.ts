@@ -23,7 +23,7 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all boardsLists`;
+    return this.repository.find();
   }
 
   findOne(id: number) {
