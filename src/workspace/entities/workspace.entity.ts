@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { KanbanEntity } from 'src/kanban/entities/kanban.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('worskpace')
 export class WorkspaceEntity {
@@ -8,17 +15,18 @@ export class WorkspaceEntity {
   @Column()
   name: string;
 
-  @Column('simple-array')
-  boards: string[];
+  @OneToOne(() => KanbanEntity)
+  @JoinColumn()
+  kanban: KanbanEntity;
 
   @Column('simple-array')
   backlog: string[];
 
   @Column('simple-array')
-  roadmap: string[];
+  members: number[];
 
   @Column('simple-array')
-  members: number[];
+  calendar: string[];
 
   @Column()
   ownerId: number;

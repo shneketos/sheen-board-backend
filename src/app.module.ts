@@ -8,6 +8,14 @@ import { UserEntity } from './users/entities/user.entity';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { WorkspaceEntity } from './workspace/entities/workspace.entity';
 import { AuthModule } from './auth/auth.module';
+import { KanbanModule } from './kanban/kanban.module';
+import { BacklogModule } from './backlog/backlog.module';
+import { CalendarModule } from './calendar/calendar.module';
+import { KanbanListModule } from './kanban_list/kanban_list.module';
+import { KanbanTasksModule } from './kanban_tasks/kanban_tasks.module';
+import { KanbanEntity } from './kanban/entities/kanban.entity';
+import { KanbanTaskEntity } from './kanban_tasks/entities/kanban_task.entity';
+import { KanbanListEntity } from './kanban_list/entities/kanban_list.entity';
 
 @Module({
   imports: [
@@ -19,13 +27,23 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [UserEntity, WorkspaceEntity],
+      entities: [
+        UserEntity,
+        WorkspaceEntity,
+        KanbanEntity,
+        KanbanTaskEntity,
+        KanbanListEntity,
+      ],
       synchronize: true,
     }),
     UsersModule,
     WorkspaceModule,
-
     AuthModule,
+    KanbanModule,
+    BacklogModule,
+    CalendarModule,
+    KanbanListModule,
+    KanbanTasksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
