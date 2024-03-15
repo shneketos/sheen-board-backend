@@ -1,3 +1,4 @@
+import { BacklogEntity } from 'src/backlog/entities/backlog.entity';
 import { KanbanEntity } from 'src/kanban/entities/kanban.entity';
 import {
   Column,
@@ -19,8 +20,9 @@ export class WorkspaceEntity {
   @JoinColumn()
   kanban: KanbanEntity;
 
-  @Column('simple-array')
-  backlog: string[];
+  @OneToOne(() => BacklogEntity)
+  @JoinColumn()
+  backlog: BacklogEntity;
 
   @Column('simple-array')
   members: number[];
