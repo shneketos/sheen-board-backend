@@ -28,12 +28,12 @@ export class WorkspaceController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.workspaceService.findOne(+id);
+  findById(@Param('id') id: number) {
+    return this.workspaceService.findById(+id);
   }
 
   @Get('user/:id')
-  findWorkspacesByUserID(@Param('id') id: string) {
+  findWorkspacesByUserID(@Param('id') id: number) {
     return this.workspaceService.findWorkspacesByUserID(+id);
   }
 

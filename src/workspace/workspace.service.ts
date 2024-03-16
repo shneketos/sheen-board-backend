@@ -18,8 +18,11 @@ export class WorkspaceService {
     return this.repository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} workspace`;
+  findById(id: number) {
+    return this.repository
+      .createQueryBuilder('workspace')
+      .where('workspace.id = :id', { id: id })
+      .getOne();
   }
   findWorkspacesByUserID(id: number) {
     return this.repository
