@@ -13,7 +13,7 @@ import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('workspace')
-@ApiTags('worspace')
+@ApiTags('workspace')
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
@@ -30,6 +30,11 @@ export class WorkspaceController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.workspaceService.findOne(+id);
+  }
+
+  @Get('user/:id')
+  findWorkspacesByUserID(@Param('id') id: string) {
+    return this.workspaceService.findWorkspacesByUserID(+id);
   }
 
   @Delete(':id')

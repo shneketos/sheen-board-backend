@@ -21,7 +21,12 @@ export class WorkspaceService {
   findOne(id: number) {
     return `This action returns a #${id} workspace`;
   }
-
+  findWorkspacesByUserID(id: number) {
+    return this.repository
+      .createQueryBuilder('workspace')
+      .where(':id IN (workspace.members)', { id })
+      .getMany();
+  }
   remove(id: number) {
     return `This action removes a #${id} workspace`;
   }

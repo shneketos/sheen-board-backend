@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('worskpace')
+@Entity('workspace')
 export class WorkspaceEntity {
   @PrimaryGeneratedColumn()
   id: number;
