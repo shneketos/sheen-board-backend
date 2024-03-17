@@ -23,6 +23,8 @@ export class KanbanService {
   findOne(id: number) {
     return this.repository
       .createQueryBuilder('kanban')
+      .leftJoinAndSelect('kanban.lists', 'lists')
+      .leftJoinAndSelect('lists.tasks', 'tasks')
       .where('kanban.id = :id', { id })
       .getOne();
   }

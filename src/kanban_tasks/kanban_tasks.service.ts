@@ -1,11 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateKanbanTaskDto } from './dto/create-kanban_task.dto';
 import { UpdateKanbanTaskDto } from './dto/update-kanban_task.dto';
+import { KanbanTaskEntity } from './entities/kanban_task.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class KanbanTasksService {
-  create(createKanbanTaskDto: CreateKanbanTaskDto) {
-    return 'This action adds a new kanbanTask';
+  constructor(
+    @InjectRepository(KanbanTaskEntity)
+    private repository: Repository<KanbanTaskEntity>,
+  ) {}
+  create(dto: CreateKanbanTaskDto): Promise<KanbanTaskEntity> {
+    const { title, stage, priority, desc, date, listId } = dto;
+    const newTask = new KanbanTaskEntity();
+    newTask.title = title;
+    newTask.stage = stage;
+    newTask.priority = priority;
+    newTask.desc = desc;
+    newTask.date = date;
+    newTask.list = { id: listId } as any;
+    return this.repository.save(newTask);
   }
 
   findAll() {
