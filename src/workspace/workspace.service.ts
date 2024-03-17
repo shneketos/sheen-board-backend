@@ -3,15 +3,35 @@ import { CreateWorkspaceDto } from './dto/create-workspace.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkspaceEntity } from './entities/workspace.entity';
+import { KanbanEntity } from 'src/kanban/entities/kanban.entity';
+import { BacklogEntity } from 'src/backlog/entities/backlog.entity';
 
 @Injectable()
 export class WorkspaceService {
   constructor(
     @InjectRepository(WorkspaceEntity)
     private repository: Repository<WorkspaceEntity>,
+
+    @InjectRepository(KanbanEntity)
+    private readonly kanbanRepository: Repository<KanbanEntity>,
+    @InjectRepository(BacklogEntity)
+    private readonly backlogRepository: Repository<BacklogEntity>,
   ) {}
-  create(dto: CreateWorkspaceDto) {
-    return this.repository.save(dto);
+  async create(
+    workspaceData: Partial<WorkspaceEntity>,
+  ): Promise<WorkspaceEntity> {
+    const workspace = this.repository.create(workspaceData);
+    return await this.repository.save(workspace);
+  }
+
+  async createKanban(): Promise<KanbanEntity> {
+    const kanban = new KanbanEntity();
+    return await this.kanbanRepository.save(kanban);
+  }
+
+  async createBacklog(): Promise<BacklogEntity> {
+    const backlog = new BacklogEntity();
+    return await this.backlogRepository.save(backlog);
   }
 
   findAll() {
@@ -21,7 +41,9 @@ export class WorkspaceService {
   findById(id: number) {
     return this.repository
       .createQueryBuilder('workspace')
-      .where('workspace.id = :id', { id: id })
+      .leftJoinAndSelect('workspace.kanban', 'kanban')
+      .leftJoinAndSelect('workspace.backlog', 'backlog')
+      .where('workspace.id = :id', { id })
       .getOne();
   }
   findWorkspacesByUserID(id: number) {

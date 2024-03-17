@@ -10,7 +10,9 @@ import {
 import { KanbanService } from './kanban.service';
 import { CreateKanbanDto } from './dto/create-kanban.dto';
 import { UpdateKanbanDto } from './dto/update-kanban.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('kanban')
 @Controller('kanban')
 export class KanbanController {
   constructor(private readonly kanbanService: KanbanService) {}

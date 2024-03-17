@@ -18,10 +18,20 @@ export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
   @Post()
-  create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
-    return this.workspaceService.create(createWorkspaceDto);
-  }
+  async create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
+    // Создаем экземпляр KanbanEntity
+    const kanban = await this.workspaceService.createKanban();
 
+    // Создаем экземпляр BacklogEntity
+    const backlog = await this.workspaceService.createBacklog();
+
+    // Создаем WorkspaceEntity и ассоциируем с KanbanEntity и BacklogEntity
+    return this.workspaceService.create({
+      ...createWorkspaceDto,
+      kanban,
+      backlog,
+    });
+  }
   @Get()
   findAll() {
     return this.workspaceService.findAll();

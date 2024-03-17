@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BacklogService } from './backlog.service';
 import { CreateBacklogDto } from './dto/create-backlog.dto';
 import { UpdateBacklogDto } from './dto/update-backlog.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('backlog')
 @Controller('backlog')
 export class BacklogController {
   constructor(private readonly backlogService: BacklogService) {}

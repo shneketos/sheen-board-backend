@@ -1,4 +1,5 @@
 import { BacklogEntity } from 'src/backlog/entities/backlog.entity';
+import { CalendarEntity } from 'src/calendar/entities/calendar.entity';
 import { KanbanEntity } from 'src/kanban/entities/kanban.entity';
 import {
   Column,

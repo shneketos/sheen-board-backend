@@ -21,6 +21,7 @@ import { BacklogTaskModule } from './backlog_task/backlog_task.module';
 import { BacklogEntity } from './backlog/entities/backlog.entity';
 import { BacklogSprintEntity } from './backlog_sprint/entities/backlog_sprint.entity';
 import { BacklogTaskEntity } from './backlog_task/entities/backlog_task.entity';
+import { CalendarEntity } from './calendar/entities/calendar.entity';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { BacklogTaskEntity } from './backlog_task/entities/backlog_task.entity';
         BacklogEntity,
         BacklogSprintEntity,
         BacklogTaskEntity,
+        CalendarEntity,
       ],
       synchronize: true,
     }),
