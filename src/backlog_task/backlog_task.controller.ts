@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { BacklogTaskService } from './backlog_task.service';
 import { CreateBacklogTaskDto } from './dto/create-backlog_task.dto';
 import { UpdateBacklogTaskDto } from './dto/update-backlog_task.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('backlog-task')
 @Controller('backlog-task')
 export class BacklogTaskController {
   constructor(private readonly backlogTaskService: BacklogTaskService) {}
@@ -23,7 +33,10 @@ export class BacklogTaskController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBacklogTaskDto: UpdateBacklogTaskDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateBacklogTaskDto: UpdateBacklogTaskDto,
+  ) {
     return this.backlogTaskService.update(+id, updateBacklogTaskDto);
   }
 

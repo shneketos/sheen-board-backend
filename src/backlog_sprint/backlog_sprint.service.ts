@@ -1,15 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBacklogSprintDto } from './dto/create-backlog_sprint.dto';
 import { UpdateBacklogSprintDto } from './dto/update-backlog_sprint.dto';
+import { BacklogSprintEntity } from './entities/backlog_sprint.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class BacklogSprintService {
-  create(createBacklogSprintDto: CreateBacklogSprintDto) {
-    return 'This action adds a new backlogSprint';
+  constructor(
+    @InjectRepository(BacklogSprintEntity)
+    private repository: Repository<BacklogSprintEntity>,
+  ) {}
+  create(dto: CreateBacklogSprintDto): Promise<BacklogSprintEntity> {
+    const { title, backlogId } = dto;
+
+    const newList = new BacklogSprintEntity();
+    newList.title = title;
+
+    newList.backlog = { id: backlogId } as any;
+
+    return this.repository.save(newList);
   }
 
   findAll() {
-    return `This action returns all backlogSprint`;
+    return this.repository.find();
   }
 
   findOne(id: number) {
