@@ -19,17 +19,17 @@ export class WorkspaceController {
 
   @Post()
   async create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
-    // Создаем экземпляр KanbanEntity
     const kanban = await this.workspaceService.createKanban();
 
-    // Создаем экземпляр BacklogEntity
+    const calendar = await this.workspaceService.createCalendar();
+
     const backlog = await this.workspaceService.createBacklog();
 
-    // Создаем WorkspaceEntity и ассоциируем с KanbanEntity и BacklogEntity
     return this.workspaceService.create({
       ...createWorkspaceDto,
       kanban,
       backlog,
+      calendar,
     });
   }
   @Get()

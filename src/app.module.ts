@@ -22,6 +22,8 @@ import { BacklogEntity } from './backlog/entities/backlog.entity';
 import { BacklogSprintEntity } from './backlog_sprint/entities/backlog_sprint.entity';
 import { BacklogTaskEntity } from './backlog_task/entities/backlog_task.entity';
 import { CalendarEntity } from './calendar/entities/calendar.entity';
+import { CalendarEventsModule } from './calendar_events/calendar_events.module';
+import { CalendarEventEntity } from './calendar_events/entities/calendar_event.entity';
 
 @Module({
   imports: [
@@ -43,6 +45,7 @@ import { CalendarEntity } from './calendar/entities/calendar.entity';
         BacklogSprintEntity,
         BacklogTaskEntity,
         CalendarEntity,
+        CalendarEventEntity,
       ],
       synchronize: true,
     }),
@@ -56,6 +59,7 @@ import { CalendarEntity } from './calendar/entities/calendar.entity';
     KanbanTasksModule,
     BacklogSprintModule,
     BacklogTaskModule,
+    CalendarEventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

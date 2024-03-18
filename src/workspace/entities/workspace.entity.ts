@@ -25,6 +25,10 @@ export class WorkspaceEntity {
   @JoinColumn()
   backlog: BacklogEntity;
 
+  @OneToOne(() => CalendarEntity)
+  @JoinColumn()
+  calendar: CalendarEntity;
+
   @Column('simple-array')
   members: number[];
 
