@@ -33,6 +33,6 @@ export class BacklogService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} backlog`;
+    return `This action removes a #${id}`;
   }
 }

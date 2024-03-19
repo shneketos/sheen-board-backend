@@ -59,6 +59,6 @@ export class WorkspaceService {
       .getMany();
   }
   remove(id: number) {
-    return `This action removes a #${id} workspace`;
+    return this.repository.delete(id);
   }
 }

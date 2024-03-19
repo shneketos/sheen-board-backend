@@ -19,6 +19,6 @@ export class KanbanListEntity {
   @ManyToOne(() => KanbanEntity, (kanban) => kanban.lists)
   kanban: KanbanEntity;
 
-  @OneToMany(() => KanbanTaskEntity, (task) => task.list)
+  @OneToMany(() => KanbanTaskEntity, (task) => task.list, { cascade: true })
   tasks: KanbanTaskEntity[];
 }

@@ -19,6 +19,6 @@ export class BacklogSprintEntity {
   @ManyToOne(() => BacklogEntity, (backlog) => backlog.sprints)
   backlog: BacklogEntity;
 
-  @OneToMany(() => BacklogTaskEntity, (task) => task.sprint)
+  @OneToMany(() => BacklogTaskEntity, (task) => task.sprint, { cascade: true })
   tasks: BacklogTaskEntity[];
 }

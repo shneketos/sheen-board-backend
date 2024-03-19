@@ -37,6 +37,6 @@ export class CalendarEventsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} calendarEvent`;
+    return this.repository.delete(id);
   }
 }

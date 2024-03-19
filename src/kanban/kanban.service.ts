@@ -34,6 +34,6 @@ export class KanbanService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} kanban`;
+    return `This action removes a #${id}`;
   }
 }

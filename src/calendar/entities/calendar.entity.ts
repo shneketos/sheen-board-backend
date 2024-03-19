@@ -6,6 +6,8 @@ export class CalendarEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany(() => CalendarEventEntity, (event) => event.calendar)
+  @OneToMany(() => CalendarEventEntity, (event) => event.calendar, {
+    cascade: true,
+  })
   events: CalendarEventEntity[];
 }

@@ -32,6 +32,6 @@ export class CalendarService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} calendar`;
+    return `This action removes a #${id}`;
   }
 }

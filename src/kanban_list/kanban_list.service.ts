@@ -35,6 +35,6 @@ export class KanbanListService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} kanbanList`;
+    return this.repository.delete(id);
   }
 }

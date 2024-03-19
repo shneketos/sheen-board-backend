@@ -35,6 +35,6 @@ export class BacklogTaskService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} backlogTask`;
+    return this.repository.delete(id);
   }
 }

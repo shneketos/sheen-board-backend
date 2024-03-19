@@ -36,6 +36,6 @@ export class KanbanTasksService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} kanbanTask`;
+    return this.repository.delete(id);
   }
 }
