@@ -27,11 +27,6 @@ export class BacklogSprintController {
     return this.backlogSprintService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.backlogSprintService.findOne(+id);
-  }
-
   @Patch(':id')
   update(
     @Param('id') id: string,

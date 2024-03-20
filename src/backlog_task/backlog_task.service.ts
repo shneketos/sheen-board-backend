@@ -22,14 +22,6 @@ export class BacklogTaskService {
     return this.repository.save(newTask);
   }
 
-  findAll() {
-    return `This action returns all backlogTask`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} backlogTask`;
-  }
-
   update(id: number, updateBacklogTaskDto: UpdateBacklogTaskDto) {
     return `This action updates a #${id} backlogTask`;
   }

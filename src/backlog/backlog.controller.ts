@@ -1,14 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { BacklogService } from './backlog.service';
-import { CreateBacklogDto } from './dto/create-backlog.dto';
 import { UpdateBacklogDto } from './dto/update-backlog.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -16,11 +7,6 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('backlog')
 export class BacklogController {
   constructor(private readonly backlogService: BacklogService) {}
-
-  @Post()
-  create(@Body() createBacklogDto: CreateBacklogDto) {
-    return this.backlogService.create(createBacklogDto);
-  }
 
   @Get()
   findAll() {
@@ -35,10 +21,5 @@ export class BacklogController {
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBacklogDto: UpdateBacklogDto) {
     return this.backlogService.update(+id, updateBacklogDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.backlogService.remove(+id);
   }
 }

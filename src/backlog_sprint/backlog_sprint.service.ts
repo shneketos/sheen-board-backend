@@ -26,10 +26,6 @@ export class BacklogSprintService {
     return this.repository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} backlogSprint`;
-  }
-
   update(id: number, updateBacklogSprintDto: UpdateBacklogSprintDto) {
     return `This action updates a #${id} backlogSprint`;
   }

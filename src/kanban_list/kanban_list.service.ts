@@ -22,14 +22,6 @@ export class KanbanListService {
     return this.repository.save(newList);
   }
 
-  findAll() {
-    return `This action returns all kanbanList`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} kanbanList`;
-  }
-
   update(id: number, updateKanbanListDto: UpdateKanbanListDto) {
     return `This action updates a #${id} kanbanList`;
   }

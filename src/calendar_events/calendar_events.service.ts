@@ -24,14 +24,6 @@ export class CalendarEventsService {
     return this.repository.save(newTask);
   }
 
-  findAll() {
-    return `This action returns all calendarEvents`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} calendarEvent`;
-  }
-
   update(id: number, updateCalendarEventDto: UpdateCalendarEventDto) {
     return `This action updates a #${id} calendarEvent`;
   }

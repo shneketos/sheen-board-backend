@@ -3,7 +3,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -24,17 +23,5 @@ export class UsersService {
 
   findAll() {
     return this.repository.find();
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} boardsList`;
-  }
-
-  update(id: number, dto: UpdateUserDto) {
-    return `This action updates a #${id} boardsList`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} boardsList`;
   }
 }

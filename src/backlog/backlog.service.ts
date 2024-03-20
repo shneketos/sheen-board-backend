@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBacklogDto } from './dto/create-backlog.dto';
 import { UpdateBacklogDto } from './dto/update-backlog.dto';
 import { BacklogEntity } from './entities/backlog.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,9 +10,6 @@ export class BacklogService {
     @InjectRepository(BacklogEntity)
     private repository: Repository<BacklogEntity>,
   ) {}
-  create(createBacklogDto: CreateBacklogDto) {
-    return 'This action adds a new backlog';
-  }
 
   findAll() {
     return this.repository.find();
@@ -30,9 +26,5 @@ export class BacklogService {
 
   update(id: number, updateBacklogDto: UpdateBacklogDto) {
     return `This action updates a #${id} backlog`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id}`;
   }
 }

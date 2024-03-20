@@ -1,15 +1,5 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Param } from '@nestjs/common';
 import { KanbanService } from './kanban.service';
-import { CreateKanbanDto } from './dto/create-kanban.dto';
-import { UpdateKanbanDto } from './dto/update-kanban.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('kanban')
@@ -18,10 +8,6 @@ export class KanbanController {
   constructor(private readonly kanbanService: KanbanService) {}
 
   @Post()
-  create(@Body() createKanbanDto: CreateKanbanDto) {
-    return this.kanbanService.create(createKanbanDto);
-  }
-
   @Get()
   findAll() {
     return this.kanbanService.findAll();
@@ -30,15 +16,5 @@ export class KanbanController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.kanbanService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateKanbanDto: UpdateKanbanDto) {
-    return this.kanbanService.update(+id, updateKanbanDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.kanbanService.remove(+id);
   }
 }

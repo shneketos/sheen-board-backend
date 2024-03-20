@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CalendarEventsService } from './calendar_events.service';
 import { CreateCalendarEventDto } from './dto/create-calendar_event.dto';
 import { UpdateCalendarEventDto } from './dto/update-calendar_event.dto';
@@ -19,16 +11,6 @@ export class CalendarEventsController {
   @Post()
   create(@Body() createCalendarEventDto: CreateCalendarEventDto) {
     return this.calendarEventsService.create(createCalendarEventDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.calendarEventsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.calendarEventsService.findOne(+id);
   }
 
   @Patch(':id')

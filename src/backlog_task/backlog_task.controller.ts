@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { BacklogTaskService } from './backlog_task.service';
 import { CreateBacklogTaskDto } from './dto/create-backlog_task.dto';
 import { UpdateBacklogTaskDto } from './dto/update-backlog_task.dto';
@@ -20,16 +12,6 @@ export class BacklogTaskController {
   @Post()
   create(@Body() createBacklogTaskDto: CreateBacklogTaskDto) {
     return this.backlogTaskService.create(createBacklogTaskDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.backlogTaskService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.backlogTaskService.findOne(+id);
   }
 
   @Patch(':id')

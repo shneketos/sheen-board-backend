@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { KanbanTasksService } from './kanban_tasks.service';
 import { CreateKanbanTaskDto } from './dto/create-kanban_task.dto';
 import { UpdateKanbanTaskDto } from './dto/update-kanban_task.dto';
@@ -20,16 +12,6 @@ export class KanbanTasksController {
   @Post()
   create(@Body() createKanbanTaskDto: CreateKanbanTaskDto) {
     return this.kanbanTasksService.create(createKanbanTaskDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.kanbanTasksService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.kanbanTasksService.findOne(+id);
   }
 
   @Patch(':id')

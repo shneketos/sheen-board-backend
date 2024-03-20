@@ -23,14 +23,6 @@ export class KanbanTasksService {
     return this.repository.save(newTask);
   }
 
-  findAll() {
-    return `This action returns all kanbanTasks`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} kanbanTask`;
-  }
-
   update(id: number, updateKanbanTaskDto: UpdateKanbanTaskDto) {
     return `This action updates a #${id} kanbanTask`;
   }
