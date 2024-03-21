@@ -4,6 +4,7 @@ import { UpdateKanbanListDto } from './dto/update-kanban_list.dto';
 import { KanbanListEntity } from './entities/kanban_list.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { KanbanTaskEntity } from 'src/kanban_tasks/entities/kanban_task.entity';
 
 @Injectable()
 export class KanbanListService {
@@ -25,8 +26,15 @@ export class KanbanListService {
   update(id: number, updateKanbanListDto: UpdateKanbanListDto) {
     return `This action updates a #${id} kanbanList`;
   }
-
+  removeCards(id: number) {
+    this.repository.manager.transaction(async (manager) => {
+      await manager.delete(KanbanTaskEntity, { list: { id } });
+    });
+  }
   remove(id: number) {
-    return this.repository.delete(id);
+    this.repository.manager.transaction(async (manager) => {
+      await manager.delete(KanbanTaskEntity, { list: { id } });
+      await manager.delete(KanbanListEntity, id);
+    });
   }
 }

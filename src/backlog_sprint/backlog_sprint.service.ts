@@ -4,6 +4,7 @@ import { UpdateBacklogSprintDto } from './dto/update-backlog_sprint.dto';
 import { BacklogSprintEntity } from './entities/backlog_sprint.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BacklogTaskEntity } from 'src/backlog_task/entities/backlog_task.entity';
 
 @Injectable()
 export class BacklogSprintService {
@@ -31,6 +32,9 @@ export class BacklogSprintService {
   }
 
   remove(id: number) {
-    return this.repository.delete(id);
+    this.repository.manager.transaction(async (manager) => {
+      await manager.delete(BacklogTaskEntity, { sprint: { id } });
+      await manager.delete(BacklogSprintEntity, id);
+    });
   }
 }

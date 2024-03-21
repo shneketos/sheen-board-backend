@@ -22,6 +22,11 @@ export class KanbanListController {
     return this.kanbanListService.update(+id, updateKanbanListDto);
   }
 
+  @Delete('cards/:id')
+  removeCards(@Param('id') id: string) {
+    return this.kanbanListService.removeCards(+id);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.kanbanListService.remove(+id);
