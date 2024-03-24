@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateKanbanListDto } from './dto/create-kanban_list.dto';
 import { UpdateKanbanListDto } from './dto/update-kanban_list.dto';
 import { KanbanListEntity } from './entities/kanban_list.entity';
@@ -23,9 +23,17 @@ export class KanbanListService {
     return this.repository.save(newList);
   }
 
-  update(id: number, updateKanbanListDto: UpdateKanbanListDto) {
-    return `This action updates a #${id} kanbanList`;
+  async update(id: number, updateKanbanListDto: UpdateKanbanListDto) {
+    const list = await this.repository.findOneBy({ id });
+
+    if (!list) {
+      throw new NotFoundException(`list with id ${id} not found.`);
+    }
+    Object.assign(list, updateKanbanListDto);
+
+    return this.repository.save(list);
   }
+
   removeCards(id: number) {
     this.repository.manager.transaction(async (manager) => {
       await manager.delete(KanbanTaskEntity, { list: { id } });
