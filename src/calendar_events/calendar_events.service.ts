@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCalendarEventDto } from './dto/create-calendar_event.dto';
 import { UpdateCalendarEventDto } from './dto/update-calendar_event.dto';
 import { CalendarEventEntity } from './entities/calendar_event.entity';
@@ -24,8 +24,15 @@ export class CalendarEventsService {
     return this.repository.save(newTask);
   }
 
-  update(id: number, updateCalendarEventDto: UpdateCalendarEventDto) {
-    return `This action updates a #${id} calendarEvent`;
+  async update(id: number, updateCalendarEventDto: UpdateCalendarEventDto) {
+    const list = await this.repository.findOneBy({ id });
+
+    if (!list) {
+      throw new NotFoundException(`list with id ${id} not found.`);
+    }
+    Object.assign(list, updateCalendarEventDto);
+
+    return this.repository.save(list);
   }
 
   remove(id: number) {
