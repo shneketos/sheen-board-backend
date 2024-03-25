@@ -4,12 +4,15 @@ import { UpdateKanbanTaskDto } from './dto/update-kanban_task.dto';
 import { KanbanTaskEntity } from './entities/kanban_task.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { KanbanListEntity } from 'src/kanban_list/entities/kanban_list.entity';
 
 @Injectable()
 export class KanbanTasksService {
   constructor(
     @InjectRepository(KanbanTaskEntity)
     private repository: Repository<KanbanTaskEntity>,
+    @InjectRepository(KanbanListEntity)
+    private readonly listRepository: Repository<KanbanListEntity>,
   ) {}
   create(dto: CreateKanbanTaskDto): Promise<KanbanTaskEntity> {
     const { title, stage, priority, desc, date, listId } = dto;
@@ -30,11 +33,35 @@ export class KanbanTasksService {
     const task = await this.repository.findOneBy({ id });
 
     if (!task) {
-      throw new NotFoundException(`TASK with id ${id} not found.`);
+      throw new NotFoundException(`Task with id ${id} not found.`);
     }
-    Object.assign(task, updateKanbanTaskDto);
+
+    // Обновляем поля задачи
+    task.title = updateKanbanTaskDto.title;
+    task.stage = updateKanbanTaskDto.stage;
+    task.priority = updateKanbanTaskDto.priority;
+    task.desc = updateKanbanTaskDto.desc;
+    task.date = updateKanbanTaskDto.date;
+
+    // Проверяем, был ли передан новый идентификатор списка
+    if (updateKanbanTaskDto.listId) {
+      // Получаем список из базы данных
+      const list = await this.getListById(updateKanbanTaskDto.listId);
+      if (!list) {
+        throw new NotFoundException(
+          `List with id ${updateKanbanTaskDto.listId} not found.`,
+        );
+      }
+      // Обновляем связь сущности KanbanTaskEntity с сущностью KanbanListEntity
+      task.list = list;
+    }
 
     return this.repository.save(task);
+  }
+
+  // Метод для получения списка по идентификатору
+  private async getListById(id: number): Promise<KanbanListEntity | undefined> {
+    return this.listRepository.findOneBy({ id });
   }
 
   remove(id: number) {

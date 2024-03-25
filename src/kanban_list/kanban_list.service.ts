@@ -35,14 +35,15 @@ export class KanbanListService {
   }
 
   removeCards(id: number) {
-    this.repository.manager.transaction(async (manager) => {
-      await manager.delete(KanbanTaskEntity, { list: { id } });
+    return this.repository.manager.transaction((manager) => {
+      return manager.delete(KanbanTaskEntity, { list: { id } });
     });
   }
   remove(id: number) {
-    this.repository.manager.transaction(async (manager) => {
-      await manager.delete(KanbanTaskEntity, { list: { id } });
-      await manager.delete(KanbanListEntity, id);
+    return this.repository.manager.transaction((manager) => {
+      return manager
+        .delete(KanbanTaskEntity, { list: { id } })
+        .then(() => manager.delete(KanbanListEntity, id));
     });
   }
 }

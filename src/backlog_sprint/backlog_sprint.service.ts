@@ -32,9 +32,10 @@ export class BacklogSprintService {
   }
 
   remove(id: number) {
-    this.repository.manager.transaction(async (manager) => {
-      await manager.delete(BacklogTaskEntity, { sprint: { id } });
-      await manager.delete(BacklogSprintEntity, id);
+    return this.repository.manager.transaction((manager) => {
+      return manager
+        .delete(BacklogTaskEntity, { sprint: { id } })
+        .then(() => manager.delete(BacklogSprintEntity, id));
     });
   }
 }
