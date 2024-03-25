@@ -16,7 +16,4 @@ export class UserEntity {
 
   @Column()
   avatar: string;
-
-  @Column('simple-array')
-  workspaces: string[];
 }

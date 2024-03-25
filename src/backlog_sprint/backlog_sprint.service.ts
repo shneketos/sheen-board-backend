@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBacklogSprintDto } from './dto/create-backlog_sprint.dto';
 import { UpdateBacklogSprintDto } from './dto/update-backlog_sprint.dto';
 import { BacklogSprintEntity } from './entities/backlog_sprint.entity';
@@ -27,8 +27,19 @@ export class BacklogSprintService {
     return this.repository.find();
   }
 
-  update(id: number, updateBacklogSprintDto: UpdateBacklogSprintDto) {
-    return `This action updates a #${id} backlogSprint`;
+  update(
+    id: number,
+    updateBacklogSprintDto: UpdateBacklogSprintDto,
+  ): Promise<BacklogSprintEntity> {
+    return this.repository.findOneBy({ id }).then((task) => {
+      if (!task) {
+        throw new NotFoundException(`Task with id ${id} not found.`);
+      }
+
+      Object.assign(task, updateBacklogSprintDto);
+
+      return this.repository.save(task);
+    });
   }
 
   remove(id: number) {

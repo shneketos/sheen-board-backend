@@ -26,41 +26,37 @@ export class KanbanTasksService {
     return this.repository.save(newTask);
   }
 
-  async update(
+  update(
     id: number,
     updateKanbanTaskDto: UpdateKanbanTaskDto,
   ): Promise<KanbanTaskEntity> {
-    const task = await this.repository.findOneBy({ id });
-
-    if (!task) {
-      throw new NotFoundException(`Task with id ${id} not found.`);
-    }
-
-    // Обновляем поля задачи
-    task.title = updateKanbanTaskDto.title;
-    task.stage = updateKanbanTaskDto.stage;
-    task.priority = updateKanbanTaskDto.priority;
-    task.desc = updateKanbanTaskDto.desc;
-    task.date = updateKanbanTaskDto.date;
-
-    // Проверяем, был ли передан новый идентификатор списка
-    if (updateKanbanTaskDto.listId) {
-      // Получаем список из базы данных
-      const list = await this.getListById(updateKanbanTaskDto.listId);
-      if (!list) {
-        throw new NotFoundException(
-          `List with id ${updateKanbanTaskDto.listId} not found.`,
-        );
+    return this.repository.findOneBy({ id }).then((task) => {
+      if (!task) {
+        throw new NotFoundException(`Task with id ${id} not found.`);
       }
-      // Обновляем связь сущности KanbanTaskEntity с сущностью KanbanListEntity
-      task.list = list;
-    }
 
-    return this.repository.save(task);
+      task.title = updateKanbanTaskDto.title;
+      task.stage = updateKanbanTaskDto.stage;
+      task.priority = updateKanbanTaskDto.priority;
+      task.desc = updateKanbanTaskDto.desc;
+      task.date = updateKanbanTaskDto.date;
+
+      if (updateKanbanTaskDto.listId) {
+        return this.getListById(updateKanbanTaskDto.listId).then((list) => {
+          if (!list) {
+            throw new NotFoundException(
+              `List with id ${updateKanbanTaskDto.listId} not found.`,
+            );
+          }
+          task.list = list;
+          return this.repository.save(task);
+        });
+      } else {
+        return this.repository.save(task);
+      }
+    });
   }
-
-  // Метод для получения списка по идентификатору
-  private async getListById(id: number): Promise<KanbanListEntity | undefined> {
+  private getListById(id: number): Promise<KanbanListEntity | undefined> {
     return this.listRepository.findOneBy({ id });
   }
 
