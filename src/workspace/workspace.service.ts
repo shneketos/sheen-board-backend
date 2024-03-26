@@ -1,10 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkspaceEntity } from './entities/workspace.entity';
 import { KanbanEntity } from 'src/kanban/entities/kanban.entity';
 import { BacklogEntity } from 'src/backlog/entities/backlog.entity';
 import { CalendarEntity } from 'src/calendar/entities/calendar.entity';
+import { UserEntity } from 'src/users/entities/user.entity';
+import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 
 @Injectable()
 export class WorkspaceService {
@@ -17,6 +19,8 @@ export class WorkspaceService {
     private readonly backlogRepository: Repository<BacklogEntity>,
     @InjectRepository(CalendarEntity)
     private readonly calendarRepository: Repository<CalendarEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
   async create(
     workspaceData: Partial<WorkspaceEntity>,
@@ -51,13 +55,46 @@ export class WorkspaceService {
       .where('workspace.id = :id', { id })
       .getOne();
   }
-  findWorkspacesByUserID(id: number) {
-    return this.repository
-      .createQueryBuilder('workspace')
-      .where(':id IN (workspace.members)', { id })
-      .getMany();
+  async findWorkspacesByUserID(id: number): Promise<WorkspaceEntity[]> {
+    const workspaces = await this.repository.find();
+    const filteredWorkspaces = workspaces.filter((workspace) =>
+      workspace.members.map(Number).includes(id),
+    );
+    return filteredWorkspaces;
   }
   remove(id: number) {
     return this.repository.delete(id);
+  }
+  async getMembers(id: number): Promise<any[]> {
+    const workspace = await this.repository.findOneBy({ id });
+    if (!workspace) {
+      throw new NotFoundException('Workspace not found');
+    }
+
+    const members = await Promise.all(
+      workspace.members.map(async (id) => {
+        const user = await this.userRepository.findOneBy({ id });
+        if (!user) {
+          throw new NotFoundException(`User with ID ${id} not found`);
+        }
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        };
+      }),
+    );
+
+    return members;
+  }
+  async update(id: number, updateWorkspaceDto: UpdateWorkspaceDto) {
+    const workspace = await this.repository.findOneBy({ id });
+
+    if (!workspace) {
+      throw new NotFoundException(`workspace with id ${id} not found.`);
+    }
+    Object.assign(workspace, updateWorkspaceDto);
+
+    return this.repository.save(workspace);
   }
 }

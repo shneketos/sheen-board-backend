@@ -3,14 +3,14 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto';
-import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 
 @Controller('workspace')
 @ApiTags('workspace')
@@ -46,9 +46,19 @@ export class WorkspaceController {
   findWorkspacesByUserID(@Param('id') id: number) {
     return this.workspaceService.findWorkspacesByUserID(+id);
   }
-
+  @Get('/members/:id')
+  async getMembers(@Param('id') id: number): Promise<any[]> {
+    return this.workspaceService.getMembers(id);
+  }
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.workspaceService.remove(+id);
+  }
+  @Patch('/members/:id')
+  update(
+    @Param('id') id: string,
+    @Body() updateWorkspaceDto: UpdateWorkspaceDto,
+  ) {
+    return this.workspaceService.update(+id, updateWorkspaceDto);
   }
 }

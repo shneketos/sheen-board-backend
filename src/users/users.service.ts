@@ -13,7 +13,11 @@ export class UsersService {
   ) {}
 
   async findById(id) {
-    return this.repository.findOneBy({ id });
+    return this.repository
+      .createQueryBuilder('user')
+      .select(['user.id', 'user.email', 'user.name', 'user.avatar'])
+      .where('user.id = :id', { id })
+      .getOne();
   }
   async findByEmail(email) {
     return this.repository.findOneBy({ email });
