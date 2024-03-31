@@ -41,7 +41,6 @@ export class WorkspaceController {
   findById(@Param('id') id: number) {
     return this.workspaceService.findById(+id);
   }
-
   @Get('user/:id')
   findWorkspacesByUserID(@Param('id') id: number) {
     return this.workspaceService.findWorkspacesByUserID(+id);
